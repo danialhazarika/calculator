@@ -1,1 +1,136 @@
-<html><head><meta content="text/html; charset=UTF-8" http-equiv="content-type"><style type="text/css">ol{margin:0;padding:0}table td,table th{padding:0}.c1{color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:11pt;font-family:"Arial";font-style:normal}.c0{padding-top:0pt;padding-bottom:0pt;line-height:1.15;orphans:2;widows:2;text-align:left}.c3{background-color:#ffffff;max-width:468pt;padding:72pt 72pt 72pt 72pt}.c2{height:11pt}.title{padding-top:0pt;color:#000000;font-size:26pt;padding-bottom:3pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}.subtitle{padding-top:0pt;color:#666666;font-size:15pt;padding-bottom:16pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}li{color:#000000;font-size:11pt;font-family:"Arial"}p{margin:0;color:#000000;font-size:11pt;font-family:"Arial"}h1{padding-top:20pt;color:#000000;font-size:20pt;padding-bottom:6pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h2{padding-top:18pt;color:#000000;font-size:16pt;padding-bottom:6pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h3{padding-top:16pt;color:#434343;font-size:14pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h4{padding-top:14pt;color:#666666;font-size:12pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h5{padding-top:12pt;color:#666666;font-size:11pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h6{padding-top:12pt;color:#666666;font-size:11pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}</style></head><body class="c3 doc-content"><p class="c0"><span class="c1">&lt;!DOCTYPE html&gt;</span></p><p class="c0"><span class="c1">&lt;html&gt;</span></p><p class="c0"><span class="c1">&lt;head&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;title&gt;Manufacturing Digitalization Savings Calculator&lt;/title&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;script&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; function calculateSavings() {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // Get input values</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let uniqueUsers = parseFloat(document.getElementById(&quot;uniqueUsers&quot;).value);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let digitalTwinUsage = parseFloat(document.getElementById(&quot;digitalTwinUsage&quot;).value);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let topUsers = parseFloat(document.getElementById(&quot;topUsers&quot;).value);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let minutesSaved = parseFloat(document.getElementById(&quot;minutesSaved&quot;).value);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let workingDays = parseFloat(document.getElementById(&quot;workingDays&quot;).value);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let salaryRate = parseFloat(document.getElementById(&quot;salaryRate&quot;).value);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (isNaN(uniqueUsers) || isNaN(digitalTwinUsage) || isNaN(topUsers) || isNaN(minutesSaved) || isNaN(workingDays) || isNaN(salaryRate)) {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; alert(&quot;Please enter valid numbers in all fields.&quot;);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // Calculate Hours saved per top user per year</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let hoursSavedTopUser = (minutesSaved * workingDays) / 60;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let savingTopUsers = topUsers * hoursSavedTopUser * salaryRate;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // Calculate Normal Users&#39; Savings</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let normalUsersPerMonth = (uniqueUsers - topUsers) / digitalTwinUsage;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let hoursSavedNormalUser = hoursSavedTopUser * 0.3;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let savingNormalUsers = normalUsersPerMonth * hoursSavedNormalUser * salaryRate;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // Total Savings</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let totalSavings = savingTopUsers + savingNormalUsers;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // Display results</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; document.getElementById(&quot;savingTopUsers&quot;).innerText = &quot;$&quot; + savingTopUsers.toFixed(2);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; document.getElementById(&quot;savingNormalUsers&quot;).innerText = &quot;$&quot; + savingNormalUsers.toFixed(2);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; document.getElementById(&quot;totalSaving&quot;).innerText = &quot;$&quot; + totalSavings.toFixed(2);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;/script&gt;</span></p><p class="c0"><span class="c1">&lt;/head&gt;</span></p><p class="c0"><span class="c1">&lt;body&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;h2&gt;Manufacturing Digitalization Savings Calculator&lt;/h2&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;label&gt;Number of Unique Users: &lt;input type=&quot;number&quot; id=&quot;uniqueUsers&quot;&gt;&lt;/label&gt;&lt;br&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;label&gt;Period of Digital Twin Usage (months): &lt;input type=&quot;number&quot; id=&quot;digitalTwinUsage&quot;&gt;&lt;/label&gt;&lt;br&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;label&gt;Number of Top Users: &lt;input type=&quot;number&quot; id=&quot;topUsers&quot;&gt;&lt;/label&gt;&lt;br&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;label&gt;Minutes Saved per Day per Top User: &lt;input type=&quot;number&quot; id=&quot;minutesSaved&quot;&gt;&lt;/label&gt;&lt;br&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;label&gt;Working Days in Year: &lt;input type=&quot;number&quot; id=&quot;workingDays&quot;&gt;&lt;/label&gt;&lt;br&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;label&gt;Salary Rate per Hour: &lt;input type=&quot;number&quot; id=&quot;salaryRate&quot;&gt;&lt;/label&gt;&lt;br&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;button onclick=&quot;calculateSavings()&quot;&gt;Calculate Savings&lt;/button&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;h3&gt;Results:&lt;/h3&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;p&gt;Saving for Top Users: &lt;span id=&quot;savingTopUsers&quot;&gt;$0.00&lt;/span&gt;&lt;/p&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;p&gt;Saving for Normal Users: &lt;span id=&quot;savingNormalUsers&quot;&gt;$0.00&lt;/span&gt;&lt;/p&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;p&gt;&lt;strong&gt;Total Saving per Year: &lt;span id=&quot;totalSaving&quot;&gt;$0.00&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;</span></p><p class="c0"><span class="c1">&lt;/body&gt;</span></p><p class="c0"><span class="c1">&lt;/html&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0 c2"><span class="c1"></span></p></body></html>
+let barChartInstance = null;
+let pieChartInstance = null;
+
+function calculateEnhancedROI() {
+    try {
+        // Safely access all inputs
+        const cameraCost = parseFloat(document.getElementById('cameraCost')?.value || 0);
+        const docCost = parseFloat(document.getElementById('docCost')?.value || 0);
+        const surveyCost = parseFloat(document.getElementById('surveyCost')?.value || 0);
+        const operatingExpenses = parseFloat(document.getElementById('operatingExpenses')?.value || 0);
+        const travelTime = parseFloat(document.getElementById('travelTime')?.value || 0);
+        const reviewTime = parseFloat(document.getElementById('reviewTime')?.value || 0);
+        const projectsAnnually = parseInt(document.getElementById('projectsAnnually')?.value || 0);
+        const billableRate = parseFloat(document.getElementById('billableRate')?.value || 0);
+
+        // Calculations
+        const docSavings = docCost * 0.8;
+        const surveySavings = surveyCost * 0.7;
+        const expenseSavings = operatingExpenses * 0.2;
+        const travelSavings = travelTime * 0.5 * projectsAnnually * billableRate;
+        const reviewSavings = reviewTime * 0.3 * projectsAnnually * billableRate;
+
+        const totalSavings = docSavings + surveySavings + expenseSavings + travelSavings + reviewSavings;
+        const paybackPeriod = cameraCost > 0 ? (cameraCost / totalSavings) : Infinity;
+        const percentageROI = cameraCost > 0 ? ((totalSavings / cameraCost) * 100) : 0;
+
+        // Update Results Safely
+        document.getElementById('totalSavings').textContent = totalSavings.toFixed(2);
+        document.getElementById('paybackPeriod').textContent = isFinite(paybackPeriod) ? paybackPeriod.toFixed(1) : 'N/A';
+        document.getElementById('percentageROI').textContent = percentageROI.toFixed(2);
+
+        // Update Table
+        const savingsTableBody = document.getElementById('savingsTableBody');
+        savingsTableBody.innerHTML = `
+            <tr>
+                <td>Documentation</td>
+                <td>$${docCost.toFixed(2)}</td>
+                <td>$${docSavings.toFixed(2)}</td>
+                <td>${((docSavings / docCost) * 100).toFixed(2)}%</td>
+            </tr>
+            <tr>
+                <td>Survey</td>
+                <td>$${surveyCost.toFixed(2)}</td>
+                <td>$${surveySavings.toFixed(2)}</td>
+                <td>${((surveySavings / surveyCost) * 100).toFixed(2)}%</td>
+            </tr>
+            <tr>
+                <td>Operating Expenses</td>
+                <td>$${operatingExpenses.toFixed(2)}</td>
+                <td>$${expenseSavings.toFixed(2)}</td>
+                <td>${((expenseSavings / operatingExpenses) * 100).toFixed(2)}%</td>
+            </tr>
+            <tr>
+                <td>Travel Time</td>
+                <td>-</td>
+                <td>$${travelSavings.toFixed(2)}</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Review Time</td>
+                <td>-</td>
+                <td>$${reviewSavings.toFixed(2)}</td>
+                <td>-</td>
+            </tr>
+        `;
+
+        // Bar Chart: Original Costs vs. Savings
+        if (barChartInstance) barChartInstance.destroy();
+        const barCtx = document.getElementById('savingsBarChart').getContext('2d');
+        barChartInstance = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Documentation', 'Survey', 'Operating Expenses', 'Travel Time', 'Review Time'],
+                datasets: [
+                    {
+                        label: 'Original Costs',
+                        data: [docCost, surveyCost, operatingExpenses, 0, 0],
+                        backgroundColor: '#f44336', // Red for Original Costs
+                    },
+                    {
+                        label: 'Savings',
+                        data: [docSavings, surveySavings, expenseSavings, travelSavings, reviewSavings],
+                        backgroundColor: '#4caf50', // Green for Savings
+                    },
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { callbacks: { label: (context) => `$${context.raw.toFixed(2)}` } }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Amount ($)',
+                        },
+                    },
+                },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeInOutCubic',
+                }
+            }
+        });
+
+        // Pie Chart: Proportions of Savings
+        if (pieChartInstance) pieChartInstance.destroy();
+        const pieCtx = document.getElementById('savingsPieChart').getContext('2d');
+        pieChartInstance = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Documentation', 'Survey', 'Operating Expenses', 'Travel Time', 'Review Time'],
+                datasets: [{
+                    data: [docSavings, surveySavings, expenseSavings, travelSavings, reviewSavings],
+                    backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#f44336', '#9c27b0'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: { callbacks: { label: (context) => `$${context.raw.toFixed(2)}` } },
+                },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeInOutCubic',
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error in ROI calculation:', error);
+    }
+}
