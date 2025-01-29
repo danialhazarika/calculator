@@ -78,13 +78,14 @@
             color: #343a40;
         }
         .logo-container {
-            text-align: left; /* Centers the image */
-            padding-top: 2px; /* Adds spacing from the top */
-        }
-
-        .logo-container img {
-            max-width: 200px; /* Adjust width as needed */
-            height: auto; /* Keeps aspect ratio */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white; /* Ensures it's visible against the background */
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+            z-index: 1000;
         }
 
     </style>
