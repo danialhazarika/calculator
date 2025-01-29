@@ -77,6 +77,16 @@
             font-size: 16px;
             color: #343a40;
         }
+        .logo-container {
+            text-align: center; /* Centers the image */
+            padding-top: 20px; /* Adds spacing from the top */
+        }
+
+        .logo-container img {
+            max-width: 200px; /* Adjust width as needed */
+            height: auto; /* Keeps aspect ratio */
+        }
+
     </style>
     <script>
         function calculateSavings() {
@@ -116,7 +126,7 @@
     </script>
 </head>
 <body>
-    <div style="text-align: center; ">
+    <div class="logo-container" style="text-align: center; ">
         <img src="logo.png" alt="Logo" style="max-width: 200px;">
     </div>
     <div class="calculator-container">
