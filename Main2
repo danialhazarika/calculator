@@ -1,0 +1,139 @@
+# Convert the markdown guide into a static HTML page
+html_template = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matterport + MaintainX Integration Guide</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background-color: #f9f9f9;
+            color: #333;
+        }}
+        h1, h2 {{
+            color: #005792;
+        }}
+        code, pre {{
+            background-color: #f4f4f4;
+            padding: 0.5em;
+            border-radius: 5px;
+            display: block;
+            overflow-x: auto;
+        }}
+        hr {{
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 2rem 0;
+        }}
+    </style>
+</head>
+<body>
+
+<h1>Matterport + MaintainX Integration Guide</h1>
+
+<p>This guide outlines how to integrate <strong>MaintainX work orders and assets</strong> with <strong>Matterport’s Tags, Notes, and Search</strong> capabilities to streamline field operations and facility maintenance.</p>
+
+<hr>
+
+<h2>Step 1: Scan the Facility</h2>
+
+<p>Use a Matterport Pro3 or compatible camera to scan the entire facility. Ensure complete coverage of critical areas such as mechanical rooms, utility spaces, and equipment zones.</p>
+<ul>
+    <li>Upload the model to Matterport Cloud.</li>
+    <li>Apply floor and room labels to improve navigation.</li>
+</ul>
+
+<hr>
+
+<h2>Step 2: Set Up Assets & Work Orders in MaintainX</h2>
+
+<p>Create digital records in MaintainX for each asset (e.g., HVAC units, panels, pumps).</p>
+<ul>
+    <li>Add asset details: name, serial number, manuals, service history.</li>
+    <li>Create work orders tied to those assets.</li>
+    <li>Copy shareable links for each asset or work order (ensure appropriate access permissions).</li>
+</ul>
+
+<hr>
+
+<h2>Step 3: Place Tags with Work Order Details</h2>
+
+<p>Inside Matterport Workshop:</p>
+<ul>
+    <li>Navigate to each asset’s physical location.</li>
+    <li>Add a <strong>Tag</strong>.</li>
+    <li>Use a consistent naming format in the title:</li>
+</ul>
+
+<pre><code>AHU-3 | Filter PM | Due 2025-06-01</code></pre>
+
+<p>In the tag description, include:</p>
+<ul>
+    <li>A summary of the task</li>
+    <li>Hyperlinked MaintainX Work Order:</li>
+</ul>
+
+<pre><code>[Open Work Order](https://app.getmaintainx.com/workorders/MX123456)</code></pre>
+
+<ul>
+    <li>Key checklist items or safety notes</li>
+</ul>
+
+<hr>
+
+<h2>Step 4: Use Matterport’s ‘Search Within Model’ Feature</h2>
+
+<p>Technicians can use the Matterport search bar to locate:</p>
+<ul>
+    <li>Asset IDs (e.g., <code>AHU-3</code>)</li>
+    <li>Task types (e.g., <code>Vibration Inspection</code>)</li>
+    <li>Work Order numbers (e.g., <code>MX123456</code>)</li>
+    <li>Due dates or priority labels if included in tags</li>
+</ul>
+
+<p><strong>Best Practice:</strong> Repeat keywords in both the <strong>Title</strong> and <strong>Description</strong> of each Tag to optimize searchability.</p>
+
+<hr>
+
+<h2>Step 5: Use Notes for Collaboration</h2>
+
+<p>Use Matterport <strong>Notes</strong> for asynchronous communication or quality control:</p>
+<ul>
+    <li>Add Notes for inspections, open issues, or punchlist items.</li>
+    <li>Tag team members or assign follow-ups if supported.</li>
+    <li>Use Notes to record issues that arise during walkthroughs or repairs.</li>
+</ul>
+
+<hr>
+
+<h2>Step 6: Share Model for Execution</h2>
+
+<p>Distribute the Matterport model link to your field or maintenance team.</p>
+<ul>
+    <li>Train them to:</li>
+    <ul>
+        <li>Use <strong>Search</strong> to quickly locate tasks</li>
+        <li>Click Tags to open related MaintainX work orders</li>
+        <li>Leave Notes for unresolved issues or clarification</li>
+    </ul>
+</ul>
+
+<p>Teams can use the 3D model for <strong>spatial orientation</strong>, reducing task time and miscommunication.</p>
+
+<hr>
+
+</body>
+</html>
+"""
+
+# Save the HTML file
+html_path = "/mnt/data/Matterport_MaintainX_Integration_Guide.html"
+with open(html_path, "w") as file:
+    file.write(html_template)
+
+html_path
