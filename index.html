@@ -1,153 +1,471 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en" class="scroll-smooth">
 <head>
-    <title>Manufacturing Digitalization Savings Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Playbook: Matterport Enterprise Sales Strategy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Slate & Sky -->
+    <!-- Application Structure Plan: A single-page application with a tab-based navigation to switch between four industry verticals (AEC, Manufacturing, Retail, Hospitality). This structure was chosen to allow users to easily compare and contrast the tailored sales narratives side-by-side. Within each industry tab, the 8-step deck flow is presented as a series of cards, creating a scannable, logical progression that mirrors the source document's narrative structure. Key data points are visualized with charts to enhance understanding and impact. This design transforms a static outline into an interactive strategic playbook. -->
+    <!-- Visualization & Content Choices: 
+        - Industry Selection: Goal: Navigation. Method: Clickable tabs. Interaction: Highlights active tab, shows/hides content sections. Justification: Clear, intuitive primary navigation for comparing distinct content sets.
+        - Deck Flow: Goal: Organize. Method: Series of styled cards in a grid. Interaction: Scrolling. Justification: Mirrors the slide-by-slide narrative of the source, making the flow easy to follow.
+        - Commercial Insight: Goal: Inform. Method: Styled blockquote. Interaction: Static display. Justification: Emphasizes the core "Challenger" message for each vertical.
+        - Rational Drowning Stats: Goal: Compare/Inform. Method: Donut & Bar Charts (Chart.js). Interaction: On-hover tooltips. Justification: Visualizes key statistics to make them more impactful and memorable than text alone. Library: Chart.js.
+        - Emotional Impact Story: Goal: Inform (qualitative). Method: Styled card with icon. Interaction: Static display. Justification: Separates the narrative story from quantitative data for better focus.
+        - Customer Proof: Goal: Inform (social proof). Method: Testimonial-style card. Interaction: Static display. Justification: Highlights the most powerful proof points clearly. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
-            font-family: Roboto, sans-serif;
-            background-color: #222222;
-            margin: 0;
-            padding-top: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
         }
-
-        .calculator-container {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px 30px;
-            max-width: 400px;
-            width: 100%;
+        .industry-tab {
+            transition: all 0.3s ease-in-out;
         }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #343a40;
-        }
-
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            font-size: 14px;
-            color: #495057;
-        }
-
-        input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #FF3158;
+        .industry-tab.active {
+            background-color: #0284c7; /* sky-600 */
             color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
-
-        button:hover {
-            background-color: #0056b3;
+        .slide-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #e2e8f0; /* slate-200 */
         }
-
-        .results {
-            margin-top: 20px;
-            padding: 10px;
-            background: #e9ecef;
-            border-radius: 4px;
+        .slide-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
-
-        .results p {
-            margin: 5px 0;
-            font-size: 14px;
+        .content-section {
+            display: none;
         }
-
-        .results strong {
-            font-size: 16px;
-            color: #343a40;
+        .content-section.active {
+            display: block;
         }
-        .logo-container {
-            position: fixed;
-            top: 0;
+        .chart-container {
+            position: relative;
             width: 100%;
-            background: white; /* Ensures it's visible against the background */
-            text-align: center;
-            padding: 2px 0;
-            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); /* Optional shadow for better visibility */
-            z-index: 1000;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 250px;
         }
-
     </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        
+        <header class="text-center mb-10 sm:mb-16">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">Enterprise Sales Playbook</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">An interactive guide to Matterport's industry-specific sales strategies, combining the Challenger Sale methodology with the Zuora narrative framework.</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10 sm:mb-12" id="industry-nav">
+            <button data-industry="aec" class="industry-tab active font-semibold py-3 px-6 rounded-full bg-white text-slate-700 shadow-sm">AEC</button>
+            <button data-industry="manufacturing" class="industry-tab font-semibold py-3 px-6 rounded-full bg-white text-slate-700 shadow-sm">Manufacturing</button>
+            <button data-industry="retail" class="industry-tab font-semibold py-3 px-6 rounded-full bg-white text-slate-700 shadow-sm">Retail</button>
+            <button data-industry="hospitality" class="industry-tab font-semibold py-3 px-6 rounded-full bg-white text-slate-700 shadow-sm">Travel & Hospitality</button>
+        </nav>
+
+        <main>
+            <!-- AEC Content -->
+            <section id="aec-content" class="content-section active">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-sky-700">Architecture, Engineering & Construction</h2>
+                    <blockquote class="mt-4 text-xl italic text-slate-600 max-w-3xl mx-auto p-4 bg-sky-50 rounded-lg border-l-4 border-sky-500">
+                        "The biggest drain on project profitability isn't material costs; it's the 'data debt' from inaccurate, inaccessible, and outdated as-built information."
+                    </blockquote>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Slide 1 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 1: THE WARMER</p>
+                        <h3 class="text-xl font-bold mt-2">A Fundamental Shift in Project Delivery</h3>
+                        <p class="mt-4 text-slate-600">The Era of the "Physical-First" Project is Over. Success is now defined by how well you manage the digital representation of a site. The teams that control the data, control the outcome.</p>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 2: REFRAME</p>
+                        <h3 class="text-xl font-bold mt-2">The Hidden Drag: "Data Debt"</h3>
+                        <p class="mt-4 text-slate-600">We obsess over financial debt, but an insidious problem is eroding margins. It's the cumulative cost of unreliable, inaccessible, and out-of-sync site information.</p>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="slide-card bg-white p-6 rounded-xl flex flex-col">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 3: RATIONAL DROWNING</p>
+                        <h3 class="text-xl font-bold mt-2">The True Cost of Bad Data</h3>
+                        <div class="flex-grow flex items-center justify-center mt-4">
+                            <div class="chart-container">
+                                <canvas id="aecChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 4: EMOTIONAL IMPACT</p>
+                        <h3 class="text-xl font-bold mt-2">"We should have caught that."</h3>
+                        <p class="mt-4 text-slate-600">The preventable, high-cost error. The clash between HVAC and steel. The client dispute over undocumented work. This isn't a competence problem; it's a visibility problem.</p>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="slide-card bg-sky-50 p-6 rounded-xl border-sky-200">
+                        <p class="text-sm font-bold text-green-600">SLIDE 5: THE PROMISED LAND</p>
+                        <h3 class="text-xl font-bold mt-2">The Zero Data Debt Project</h3>
+                        <p class="mt-4 text-slate-600">Imagine a world where every stakeholder has perfect visibility, instantly. A world with 90% fewer RFIs and 70% fewer verification site visits.</p>
+                    </div>
+                    <!-- Slide 6 -->
+                    <div class="slide-card bg-slate-800 text-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-400">SLIDE 6: INTRODUCING MATTERPORT</p>
+                        <h3 class="text-xl font-bold mt-2">The Platform for a New Era</h3>
+                        <p class="mt-4 text-slate-300">We turn your physical sites into data-driven assets. We make the "Zero Data Debt" project a reality by capturing every detail with 99% accuracy.</p>
+                    </div>
+                    <!-- Slide 7 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 7: HOW WE DO IT</p>
+                        <h3 class="text-xl font-bold mt-2">From Reality to ROI</h3>
+                        <p class="mt-4 text-slate-600"><b>1. Capture:</b> Scan any site in hours. <br><b>2. Understand:</b> Generate your as-built model automatically. <br><b>3. Collaborate:</b> Share and manage with your existing tools like Procore.</p>
+                    </div>
+                    <!-- Slide 8 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 8: CUSTOMER PROOF</p>
+                        <h3 class="text-xl font-bold mt-2">Hensel Phelps & Wesbuilt</h3>
+                        <p class="mt-4 text-slate-600 italic">"They saw a 61% reduction in documentation errors and completed projects 22% faster."</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manufacturing Content -->
+            <section id="manufacturing-content" class="content-section">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-sky-700">Manufacturing & Industrial Facilities</h2>
+                    <blockquote class="mt-4 text-xl italic text-slate-600 max-w-3xl mx-auto p-4 bg-sky-50 rounded-lg border-l-4 border-sky-500">
+                        "The greatest risk to your operational efficiency isn't machine downtime; it's the 'knowledge gap' between expert engineers and on-the-ground teams."
+                    </blockquote>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                     <!-- Slide 1 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 1: THE WARMER</p>
+                        <h3 class="text-xl font-bold mt-2">The Widening "Knowledge Gap"</h3>
+                        <p class="mt-4 text-slate-600">Your most valuable asset is walking out the door. Experienced engineers are retiring, taking decades of tribal knowledge with them. How do you transfer that expertise?</p>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 2: REFRAME</p>
+                        <h3 class="text-xl font-bold mt-2">The "Inaccessibility Tax"</h3>
+                        <p class="mt-4 text-slate-600">Every planning meeting and maintenance delay is a tax on inaccessible expertise. When engineers have to fly to a site, you're paying in project delays and production downtime.</p>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="slide-card bg-white p-6 rounded-xl flex flex-col">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 3: RATIONAL DROWNING</p>
+                        <h3 class="text-xl font-bold mt-2">Quantifying the Knowledge Gap</h3>
+                        <div class="flex-grow flex items-center justify-center mt-4">
+                            <div class="chart-container">
+                                <canvas id="manufacturingChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 4: EMOTIONAL IMPACT</p>
+                        <h3 class="text-xl font-bold mt-2">The 2 AM Phone Call</h3>
+                        <p class="mt-4 text-slate-600">A line goes down. The local team is lost. The only expert is 1,000 miles away. The frantic calls, the costly downtime—all because the expert couldn't *see* the problem.</p>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="slide-card bg-sky-50 p-6 rounded-xl border-sky-200">
+                        <p class="text-sm font-bold text-green-600">SLIDE 5: THE PROMISED LAND</p>
+                        <h3 class="text-xl font-bold mt-2">The Self-Service Factory</h3>
+                        <p class="mt-4 text-slate-600">Imagine any employee can virtually walk the factory floor, take precise measurements, and access embedded knowledge from retiring engineers.</p>
+                    </div>
+                    <!-- Slide 6 -->
+                    <div class="slide-card bg-slate-800 text-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-400">SLIDE 6: INTRODUCING MATTERPORT</p>
+                        <h3 class="text-xl font-bold mt-2">Your Facility, Digitized.</h3>
+                        <p class="mt-4 text-slate-300">We are the bridge between your physical assets and your team's expertise. We digitize your entire facility, closing the knowledge gap and eliminating the "inaccessibility tax."</p>
+                    </div>
+                    <!-- Slide 7 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 7: HOW WE DO IT</p>
+                        <h3 class="text-xl font-bold mt-2">Digitize, Analyze, Operationalize</h3>
+                        <p class="mt-4 text-slate-600"><b>1. Digitize:</b> Capture your entire facility with LiDAR accuracy. <br><b>2. Analyze:</b> Measure, annotate, and tag assets. <br><b>3. Operationalize:</b> Share with vendors, plan remotely, and train your workforce.</p>
+                    </div>
+                    <!-- Slide 8 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 8: CUSTOMER PROOF</p>
+                        <h3 class="text-xl font-bold mt-2">Bayer & Siemens</h3>
+                        <p class="mt-4 text-slate-600 italic">"Bayer digitized their legacy design process with Matterport, saving 75% on capital project planning costs and significantly reducing travel for their engineering teams."</p>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Retail Content -->
+            <section id="retail-content" class="content-section">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-sky-700">Retail</h2>
+                    <blockquote class="mt-4 text-xl italic text-slate-600 max-w-3xl mx-auto p-4 bg-sky-50 rounded-lg border-l-4 border-sky-500">
+                        "The biggest threat to your brand consistency isn't supply chain; it's 'portfolio blindness' from not having a reliable, up-to-date view of your entire store fleet."
+                    </blockquote>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                     <!-- Slide 1 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 1: THE WARMER</p>
+                        <h3 class="text-xl font-bold mt-2">The Retail Mandate Has Changed</h3>
+                        <p class="mt-4 text-slate-600">It's no longer "Location, Location, Location." It's "Experience, Experience, Experience." Your physical store is your most powerful brand statement.</p>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 2: REFRAME</p>
+                        <h3 class="text-xl font-bold mt-2">Suffering from "Portfolio Blindness?"</h3>
+                        <p class="mt-4 text-slate-600">Can you verify a new campaign was executed correctly in 800 stores? This lack of a unified, real-time view leads to brand inconsistency and wasted spend.</p>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="slide-card bg-white p-6 rounded-xl flex flex-col">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 3: RATIONAL DROWNING</p>
+                        <h3 class="text-xl font-bold mt-2">The Costs of Inconsistency</h3>
+                        <div class="flex-grow flex items-center justify-center mt-4">
+                            <div class="chart-container">
+                                <canvas id="retailChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 4: EMOTIONAL IMPACT</p>
+                        <h3 class="text-xl font-bold mt-2">The Failed Rollout</h3>
+                        <p class="mt-4 text-slate-600">A multi-million dollar campaign falls flat. Why? In-store displays were set up incorrectly because teams lacked clear instructions for their unique layouts.</p>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="slide-card bg-sky-50 p-6 rounded-xl border-sky-200">
+                        <p class="text-sm font-bold text-green-600">SLIDE 5: THE PROMISED LAND</p>
+                        <h3 class="text-xl font-bold mt-2">The All-Knowing Portfolio</h3>
+                        <p class="mt-4 text-slate-600">Imagine launching a campaign and virtually walking through every store to verify compliance from your desk. This is total portfolio awareness.</p>
+                    </div>
+                    <!-- Slide 6 -->
+                    <div class="slide-card bg-slate-800 text-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-400">SLIDE 6: INTRODUCING MATTERPORT</p>
+                        <h3 class="text-xl font-bold mt-2">Your Eyes in Every Store</h3>
+                        <p class="mt-4 text-slate-300">We give you a single pane of glass to view and manage your entire retail fleet. We create the source of truth you need to execute with precision at scale.</p>
+                    </div>
+                    <!-- Slide 7 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 7: HOW WE DO IT</p>
+                        <h3 class="text-xl font-bold mt-2">Scan, Standardize, Scale</h3>
+                        <p class="mt-4 text-slate-600"><b>1. Scan:</b> Quickly capture any store layout. <br><b>2. Standardize:</b> Create consistent as-built models for your fleet. <br><b>3. Scale:</b> Share with merchandising, ops, and design to plan and verify remotely.</p>
+                    </div>
+                    <!-- Slide 8 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 8: CUSTOMER PROOF</p>
+                        <h3 class="text-xl font-bold mt-2">The Ivy Collection</h3>
+                        <p class="mt-4 text-slate-600 italic">"The Ivy Collection uses Matterport to plan refurbishments and ensure every restaurant delivers the same iconic experience, all while dramatically reducing site visits."</p>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Hospitality Content -->
+            <section id="hospitality-content" class="content-section">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-sky-700">Travel & Hospitality</h2>
+                    <blockquote class="mt-4 text-xl italic text-slate-600 max-w-3xl mx-auto p-4 bg-sky-50 rounded-lg border-l-4 border-sky-500">
+                        "The booking decision is no longer based on professional photos; it's made in the moment of virtual immersion, where trust and transparency are paramount."
+                    </blockquote>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Slide 1 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 1: THE WARMER</p>
+                        <h3 class="text-xl font-bold mt-2">The End of the "Trust Me" Era</h3>
+                        <p class="mt-4 text-slate-600">Modern consumers are skeptical. They've been burned by wide-angle photos and misleading descriptions. They demand authentic, transparent experiences before they book.</p>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 2: REFRAME</p>
+                        <h3 class="text-xl font-bold mt-2">The "Transparency Gap"</h3>
+                        <p class="mt-4 text-slate-600">Every question a guest can't answer online is a potential lost booking. This gap creates hesitation and drives customers to your competitors.</p>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="slide-card bg-white p-6 rounded-xl flex flex-col">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 3: RATIONAL DROWNING</p>
+                        <h3 class="text-xl font-bold mt-2">The Economics of Immersion</h3>
+                         <div class="flex-grow flex items-center justify-center mt-4">
+                            <div class="chart-container" style="height: 280px; max-height: 280px;">
+                                <canvas id="hospitalityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 4: EMOTIONAL IMPACT</p>
+                        <h3 class="text-xl font-bold mt-2">The Disappointed Guest</h3>
+                        <p class="mt-4 text-slate-600">"This isn't what it looked like online." A single bad review from a mismatched expectation erodes your brand's reputation and future revenue.</p>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="slide-card bg-sky-50 p-6 rounded-xl border-sky-200">
+                        <p class="text-sm font-bold text-green-600">SLIDE 5: THE PROMISED LAND</p>
+                        <h3 class="text-xl font-bold mt-2">The Ultimate Booking Experience</h3>
+                        <p class="mt-4 text-slate-600">Let guests and planners book with 100% confidence. A booking process where every question is answered before it's asked is a powerful conversion engine.</p>
+                    </div>
+                    <!-- Slide 6 -->
+                    <div class="slide-card bg-slate-800 text-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-400">SLIDE 6: INTRODUCING MATTERPORT</p>
+                        <h3 class="text-xl font-bold mt-2">The Engine for Immersion</h3>
+                        <p class="mt-4 text-slate-300">We let you showcase your property with complete transparency and unparalleled detail. We provide the ultimate tool to build trust and convert lookers into bookers.</p>
+                    </div>
+                    <!-- Slide 7 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 7: HOW WE DO IT</p>
+                        <h3 class="text-xl font-bold mt-2">Capture, Showcase, Convert</h3>
+                        <p class="mt-4 text-slate-600"><b>1. Capture:</b> Digitize your entire property. <br><b>2. Showcase:</b> Embed your 3D model on your website & booking channels. <br><b>3. Convert:</b> Empower sales teams and increase direct reservations.</p>
+                    </div>
+                    <!-- Slide 8 -->
+                    <div class="slide-card bg-white p-6 rounded-xl">
+                        <p class="text-sm font-bold text-sky-600">SLIDE 8: CUSTOMER PROOF</p>
+                        <h3 class="text-xl font-bold mt-2">Vacasa</h3>
+                        <p class="mt-4 text-slate-600 italic">"Vacasa boosts booking conversions and scales property operations by using Matterport's immersive 3D technology to provide an authentic and transparent view."</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
     <script>
-        function calculateSavings() {
-            // Get input values
-            let uniqueUsers = parseFloat(document.getElementById("uniqueUsers").value);
-            let digitalTwinUsage = parseFloat(document.getElementById("digitalTwinUsage").value);
-            let topUsers = parseFloat(document.getElementById("topUsers").value);
-            let minutesSaved = parseFloat(document.getElementById("minutesSaved").value);
-            let workingDays = parseFloat(document.getElementById("workingDays").value);
-            let salaryRate = parseFloat(document.getElementById("salaryRate").value);
-            let investmentLevel = parseFloat(document.getElementById("investmentLevel").value);
-            
-            if (isNaN(uniqueUsers) || isNaN(digitalTwinUsage) || isNaN(topUsers) || isNaN(minutesSaved) || isNaN(workingDays) || isNaN(salaryRate) || isNaN(investmentLevel)) {
-                alert("Please enter valid numbers in all fields.");
-                return;
+        document.addEventListener('DOMContentLoaded', function() {
+            const industryNav = document.getElementById('industry-nav');
+            const contentSections = document.querySelectorAll('.content-section');
+            const tabs = document.querySelectorAll('.industry-tab');
+            let activeChart = null;
+            let aecChartInstance, manufacturingChartInstance, retailChartInstance, hospitalityChartInstance;
+
+            function switchTab(industry) {
+                tabs.forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.dataset.industry === industry) {
+                        tab.classList.add('active');
+                    }
+                });
+
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === `${industry}-content`) {
+                        section.classList.add('active');
+                    }
+                });
+                renderChart(industry);
             }
             
-            // Calculate Hours saved per top user per year
-            let hoursSavedTopUser = (minutesSaved * workingDays) / 60;
-            let savingTopUsers = topUsers * hoursSavedTopUser * salaryRate;
+            industryNav.addEventListener('click', function(e) {
+                if (e.target.matches('button')) {
+                    const industry = e.target.dataset.industry;
+                    switchTab(industry);
+                }
+            });
             
-            // Calculate Normal Users' Savings
-            let normalUsersPerMonth = (uniqueUsers - topUsers) / digitalTwinUsage;
-            let hoursSavedNormalUser = hoursSavedTopUser * 0.3;
-            let savingNormalUsers = normalUsersPerMonth * hoursSavedNormalUser * salaryRate;
-            
-            // Total Savings
-            let totalSavings = savingTopUsers + savingNormalUsers;
-            let netBenefit = totalSavings - investmentLevel;
-            
-            // Display results
-            document.getElementById("savingTopUsers").innerText = "$" + savingTopUsers.toFixed(2);
-            document.getElementById("savingNormalUsers").innerText = "$" + savingNormalUsers.toFixed(2);
-            document.getElementById("totalSaving").innerText = "$" + totalSavings.toFixed(2);
-            document.getElementById("netBenefit").innerText = "$" + netBenefit.toFixed(2);
-        }
+            function renderChart(industry) {
+                 if (industry === 'aec' && !aecChartInstance) {
+                    const ctx = document.getElementById('aecChart').getContext('2d');
+                    aecChartInstance = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Rework from Poor Data', 'Other Causes'],
+                            datasets: [{
+                                data: [52, 48],
+                                backgroundColor: ['#ef4444', '#e2e8f0'],
+                                borderColor: ['#ef4444', '#e2e8f0'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom' },
+                                title: { display: true, text: '52% of rework is caused by poor data' }
+                            }
+                        }
+                    });
+                }
+                 if (industry === 'manufacturing' && !manufacturingChartInstance) {
+                    const ctx = document.getElementById('manufacturingChart').getContext('2d');
+                    manufacturingChartInstance = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Project Planning Time', 'Execution Time'],
+                            datasets: [{
+                                data: [75, 25],
+                                backgroundColor: ['#f97316', '#e2e8f0'],
+                                borderColor: ['#f97316', '#e2e8f0'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom' },
+                                title: { display: true, text: '75% of engineering time spent on planning' }
+                            }
+                        }
+                    });
+                }
+                 if (industry === 'retail' && !retailChartInstance) {
+                    const ctx = document.getElementById('retailChart').getContext('2d');
+                    retailChartInstance = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Revenue Increase', 'Baseline'],
+                            datasets: [{
+                                data: [33, 100],
+                                backgroundColor: ['#10b981', '#e2e8f0'],
+                                borderColor: ['#10b981', '#e2e8f0'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                title: { display: true, text: 'Up to 33% Revenue Increase with Brand Consistency' }
+                            },
+                             circumference: 180,
+                             rotation: -90,
+                        }
+                    });
+                }
+                if (industry === 'hospitality' && !hospitalityChartInstance) {
+                    const ctx = document.getElementById('hospitalityChart').getContext('2d');
+                    hospitalityChartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Engagement Increase', 'Booking Conversion Increase'],
+                            datasets: [{
+                                label: 'Uplift %',
+                                data: [300, 14],
+                                backgroundColor: ['#3b82f6', '#84cc16'],
+                                borderColor: ['#3b82f6', '#84cc16'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                             scales: { y: { beginAtZero: true, ticks: { callback: (value) => value + '%' } } },
+                            plugins: {
+                                legend: { display: false },
+                                title: { display: true, text: 'Impact of Immersive 3D Tours' }
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Initial render
+            switchTab('aec');
+        });
     </script>
-</head>
-<body>
-    <div class="logo-container" style="text-align: center; ">
-        <img src="mttr.png" alt="Logo" style="max-width: 200px;">
-    </div>
-    <div class="calculator-container">
-        <h2>Manufacturing Digitalization Savings Calculator</h2>
-        <label>Number of Unique Users: <input type="number" id="uniqueUsers"></label>
-        <label>Period of Digital Twin Usage (months): <input type="number" id="digitalTwinUsage"></label>
-        <label>Number of Top Users: <input type="number" id="topUsers"></label>
-        <label>Minutes Saved per Day per Top User: <input type="number" id="minutesSaved"></label>
-        <label>Working Days in Year: <input type="number" id="workingDays"></label>
-        <label>Salary Rate per Hour: <input type="number" id="salaryRate"></label>
-        <label>Expected Matterport Investment Level: <input type="number" id="investmentLevel"></label>
-        <button onclick="calculateSavings()">Calculate Savings</button>
-        
-        <div class="results">
-            <p>Saving for Top Users: <span id="savingTopUsers">$0.00</span></p>
-            <p>Saving for Normal Users: <span id="savingNormalUsers">$0.00</span></p>
-            <p><strong>Total Saving per Year: <span id="totalSaving">$0.00</span></strong></p>
-            <p><strong>Net Benefit: <span id="netBenefit">$0.00</span></strong></p>
-        </div>
-    </div>
-   
 </body>
 </html>
